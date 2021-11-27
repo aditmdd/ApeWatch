@@ -1,18 +1,34 @@
 ## Pancake Swap ApeWatch
 Monitor for new pairs with BNB on Pancake Swap
-Super simple to use , print basic information for token(name, symbol, initial BNB in LP and direct link to swap on pancake.swap)
+Super simple to use , print basic information for token(name, symbol, initial BNB in LP and direct link to swap on PancakeSwap)
+
+
+### Requiremnts:
+
+Beside build-in python modules ApeWatch requires two extra modules
+
+```
+-web3 (for interacting with BSC)
+-termcolor (for pretty output)
+```
+You can install them both with pip
+```
+-pip3 install web3
+-pip3 install termcolor
+```
 
 ### Usage:
 
-First run:
-```
-pip3 install -r requiremnts.txt
-```
-Next run:
+Run:
 ```
 python3 ApeWatch
 ```
 Then press enter and wait for new pairs.
+
+Additional commandline arguments:
+```
+-o, --output   save all data to token.txt file
+```
 
 
 Screenshots:
