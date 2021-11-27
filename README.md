@@ -41,7 +41,7 @@ Screenshots:
 
 
 
-### If you like my work feel free to contribute(anything helps):
+### If you like my work feel free to donate:
 
 ETH: 0xa9e21228349800b1f7ebaC82b41643021269DB0b
 
