@@ -1,8 +1,8 @@
 import os
 import time
+import argparse
 from termcolor import colored
 from web3 import Web3, HTTPProvider
-
 
 w3 = Web3(HTTPProvider('https://bsc-dataseed1.binance.org/'))
 pairCreated_topic = '0x0d3648bd0f6ba80134a33ba9275ac585d9d315f0ad8355cddefde31afa28d0e9'
@@ -30,9 +30,9 @@ def banner():
 d88P     888 88888P"   "Y8888  888P     Y888 "Y888888  "Y888 "Y8888P 888  888 
              888                                                              
              888                                                              
-             888                                                              ''', 'white', 'on_yellow'))
+             888                                               by gensx-x1    ''', 'white'))
 
-# Return: Dict(token0: reserve, token1: reserve)
+
 def getReserve(lp):
     contract = w3.eth.contract(address=w3.toChecksumAddress(lp), abi=pancake_LP_ABI)
     r0, r1, timestamp = contract.functions.getReserves().call()
@@ -59,7 +59,7 @@ def getReserveTokens(lp):
     reserveTokens = {token0name: token0.lower(), token1name: token1.lower()}
     return reserveTokens
 
-# Return Dict(name, symbol, contract address, lp address, reserve)
+
 def gatherTokenInfo(lp):
     lp_contract = w3.eth.contract(address=w3.toChecksumAddress(lp), abi=pancake_LP_ABI)
     reserveTokens = getReserveTokens(lp)
@@ -76,6 +76,7 @@ def gatherTokenInfo(lp):
                  'reserve': '{:.4f}'.format(w3.fromWei(reserve['BNB'], 'ether'))}
     return tokenData
 
+
 def ape():
     prevBlock = w3.eth.block_number
     while True:
@@ -89,17 +90,26 @@ def ape():
                     if event['topics'][0].hex() == pairCreated_topic:
                         if event['topics'][1].hex() == wbnb_topic or event['topics'][2].hex() == wbnb_topic:
                             lp = '0x' + event['data'][26:66]
-                            tokenData = gatherTokenInfo(lp)
-                            print(f'block:{currentBlock}|name:{tokenData["name"]}|symbol:{tokenData["symbol"]}\n|'
-                                  f'initial BNB pool:{tokenData["reserve"]}\n|ApeIn Link: {pancake_link.format(tokenData["contract"])}')
+                            try:
+                                tokenData = gatherTokenInfo(lp)
+                                d = f'----------------------------\n' \
+                                    f'block:{currentBlock}\n' \
+                                    f'name:{tokenData["name"]}|symbol:{tokenData["symbol"]}\n' \
+                                    f'contract: {tokenData["contract"]}\n' \
+                                    f'initial BNB pool:{tokenData["reserve"]}\n' \
+                                    f'ApeIn Link: {pancake_link.format(tokenData["contract"])}\n' \
+                                    f'----------------------------\n'
+                                print(d)
+                                if args.output is True:
+                                    with open('tokens.txt', 'a') as f:
+                                        f.write(d)
+                                        f.close()
+                            except Exception:
+                                pass
                     else:
                         print(f'block:{currentBlock}|No new pairs', end='\r')
         elif currentBlock == prevBlock:
             print(f'block:{currentBlock}|No new pairs', end='\r')
-
-
-
-
 
 
 def main():
@@ -109,6 +119,8 @@ def main():
     ape()
 
 
-
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Check every block for new LP pairs with BNB on PancakeSwap')
+    parser.add_argument("-o", "--output", help="save new pairs to file", action="store_true")
+    args = parser.parse_args()
     main()
