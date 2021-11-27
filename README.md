@@ -32,9 +32,17 @@ Additional commandline arguments:
 
 
 Screenshots:
-
+(screenshots and video are outdated, updated will be uploaded soon)
 [1](1.png)
 [2](2.png)
 [3](3.png)
 
 ### [Youtube Demo](https://youtu.be/zilIKB38Pvo)
+
+
+
+## If you like my work feel free to contribute(anything helps):
+
+ETH: 0xa9e21228349800b1f7ebaC82b41643021269DB0b
+BSC: 0xa9e21228349800b1f7ebaC82b41643021269DB0b 
+POLYGON: 0xa9e21228349800b1f7ebaC82b41643021269DB0b
